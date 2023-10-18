@@ -3,7 +3,7 @@ import logging as logger
 
 logger.basicConfig(level=logger.DEBUG)
 
-class SqlLogParser2:
+class HibernateLogParser:
     """
         Detects sql-queries and the associated binding parameters in a hibernate log file
         and constructs the resolved sql statements where the parameter placholder '?' is replaced 
@@ -92,20 +92,21 @@ import sys
 
 def main():
     """
+        "Usage: >> python sql_log_assembler.py {filename}"
         Expects one filename parameter. 
         The output is written to the file {input_filename}.out. 
         Note that the output file will be overwritten by default.  
     """
 
     if not len(sys.argv) == 2:
-        print("Usage: >> python parse_log.py {filename}")
+        print("Usage: >> python sql_log_assembler.py {filename}")
         return
 
     filename = sys.argv[1]
     with open(filename) as file:
         lines = [line for line in file]
 
-    p = SqlLogParser2(lines=lines)
+    p = HibernateLogParser(lines=lines)
     p.parse_log_file()
 
     filename = filename + '.out'
